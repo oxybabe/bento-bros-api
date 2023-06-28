@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Appetizers</h1>
+    <ul>
+      {% for appetizer in appetizer_list %}
+      <li>
+        <a
+          style="text-decoration: none"
+          href="{% url 'appetizer_item' appetizer.id %}"
+        >
+          <b>{{ appetizer.name }} ${{ appetizer.price }}</b>
+          <li>{{ appetizer.japanese_name }}</li>
+          <li>{{ appetizer.description }}</li>
+        </a>
+        <form
+          action="{% url 'menu_app:delete_appetizer' appetizer.id %}"
+          method="POST"
+        >
+          {% csrf_token %}
+          <button type="submit">Delete Appetizer</button>
+        </form>
+        <form
+          action="{% url 'menu_app:update_appetizer' appetizer.id %}"
+          method="POST"
+        >
+          {% csrf_token %} {{ form.as_p }}
+          <input type="hidden" name="_method" value="PUT" />
+          <button type="submit">Update Appetizer</button>
+        </form>
+      </li>
+
+      {% endfor %}
+      <form action="{% url 'menu_app:create_appetizer'  %}" method="POST">
+        {% csrf_token %} {{ form.as_p }}
+        <input type="hidden" name="_method" value="POST" />
+        <button type="submit">Create Appetizer</button>
+      </form>
+    </ul>
+    <h2>Main Course</h2>
+    <ul>
+      {% for main in main_course_list %}
+      <a style="text-decoration: none" href="{% url 'main_item' main.id %}">
+        <b>{{ main.name }} ${{ main.price }}</b>
+        <li>{{ main.japanese_name }}</li>
+        <li>{{ main.description }}</li>
+      </a>
+      <form
+        action="{% url 'menu_app:delete_main_course' main.id %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <button type="submit">Delete Main Course</button>
+      </form>
+      <form
+        action="{% url 'menu_app:update_main_course' main.id %}"
+        method="POST"
+      >
+        {% csrf_token %} {{ form.as_p }}
+        <input type="hidden" name="_method" value="PUT" />
+        <button type="submit">Update Main Course</button>
+      </form>
+      {% endfor %}
+      <form action="{% url 'menu_app:create_main_course'  %}" method="POST">
+        {% csrf_token %} {{ form.as_p }}
+        <input type="hidden" name="_method" value="POST" />
+        <button type="submit">Create Main Course</button>
+      </form>
+    </ul>
+    <h2>Desserts</h2>
+    <ul>
+      {% for dessert in dessert_list %}
+      <a
+        style="text-decoration: none"
+        href="{% url 'dessert_item' dessert.id %}"
+      >
+        <b>{{ dessert.name }} ${{ dessert.price }}</b>
+        <li>{{ dessert.japanese_name }}</li>
+        <li>{{ dessert.description }}</li>
+      </a>
+      <form
+        action="{% url 'menu_app:delete_desserts' dessert.id %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <button type="submit">Delete Dessert</button>
+      </form>
+      <form
+        action="{% url 'menu_app:update_dessert' dessert.id %}"
+        method="POST"
+      >
+        {% csrf_token %} {{ form.as_p }}
+        <input type="hidden" name="_method" value="PUT" />
+        <button type="submit">Update Dessert</button>
+      </form>
+      {% endfor %}
+      <form action="{% url 'menu_app:create_dessert'  %}" method="POST">
+        {% csrf_token %} {{ form.as_p }}
+        <input type="hidden" name="_method" value="POST" />
+        <button type="submit">Create Dessert</button>
+      </form>
+    </ul>
+  </body>
+</html>
