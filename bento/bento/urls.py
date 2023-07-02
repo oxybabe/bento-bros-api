@@ -17,7 +17,8 @@ Including another URLconf
 from django import views
 from django.contrib import admin
 from django.urls import include, path
-from menu_app.views import  home, menu, menu_item, seed, appetizer_item, main_item, dessert_item
+from menu_app.views import  home, menu, menu_item, seed, appetizer_item, main_item, dessert_item, AppetizerAPIView, MainCourseAPIView, DessertAPIView
+from menu_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', home),
@@ -28,7 +29,10 @@ urlpatterns = [
     path('main/<int:main_item_id>', main_item, name="main_item"), 
     path('dessert/<int:dessert_item_id>', dessert_item, name="dessert_item"), 
     path('backoffice/', include('menu_app.urls') ), 
-    # path('api/', views.ProductApiView.as_view())
+    path('api/appetizers/', views.AppetizerAPIView.as_view()),
+    path('api/main_course/', views.MainCourseAPIView.as_view()), 
+    path('api/desserts/', views.DessertAPIView.as_view())
+    # path('api/', views.AppetizerApiView.as_view())
    
  
 ]

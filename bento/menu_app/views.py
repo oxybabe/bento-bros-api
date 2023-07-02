@@ -2,8 +2,11 @@
 from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import RequestContext
+from .serializers import AppetizerSerializer, DessertSerializer, MainCourseSerializer
 from menu_app.forms import AppetizerForm, DessertForm, MainCourseForm 
 from menu_app.models import Appetizer, MainCourse, Dessert
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 
@@ -216,15 +219,6 @@ def seed(request):
   all_desserts = Dessert.objects.all()
   return render(request, 'food_type.html', {'appetizers': all_appetizers, 'main_course': all_main_course, 'desserts': all_desserts})
     
-# def create_appetizer(request):
-#   form = AppetizerForm(request.POST or None)
-#   if request.method == 'POST' and form.is_valid():
-#     form.save()
-#     print(request)
-#     return render(request, 'order.html')
-  # return HttpResponse("This is the create_appetizer view for GET requests.")
-
-
 
 
 def delete_appetizer(request, appetizer_id):
@@ -351,3 +345,23 @@ def create_dessert(request):
    
   }
   return render(request, 'office.html', context )
+
+
+class AppetizerAPIView(APIView):
+  def get(self, request):
+    appetizers = Appetizer.objects.all()
+    serializer = AppetizerSerializer(appetizers, many=True)
+    return Response(serializer.data)
+    
+class MainCourseAPIView(APIView):
+  def get(self, request):
+    main_course = MainCourse.objects.all()
+    serializer = MainCourseSerializer(main_course, many=True)
+    return Response(serializer.data)
+
+    
+class DessertAPIView(APIView):
+  def get(self, request):
+    desserts = Dessert.objects.all()
+    serializer = DessertSerializer(desserts, many=True)
+    return Response(serializer.data)
