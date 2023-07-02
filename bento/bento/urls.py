@@ -32,7 +32,6 @@ urlpatterns = [
     path('api/appetizers/', views.AppetizerAPIView.as_view()),
     path('api/main_course/', views.MainCourseAPIView.as_view()), 
     path('api/desserts/', views.DessertAPIView.as_view())
-    # path('api/', views.AppetizerApiView.as_view())
    
  
 ]

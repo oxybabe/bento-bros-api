@@ -27,6 +27,5 @@ urlpatterns = [
 
 
 ]
-    # path('appetizer/create', create_appetizer, name='create_appetizer')
     
 
