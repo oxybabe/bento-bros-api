@@ -378,16 +378,72 @@ class AppetizerAPIView(APIView):
         if form.is_valid():
           form.save()
         return Response({'appetizer updated successfully'})
-    
+      
 class MainCourseAPIView(APIView):
-  def get(self, request):
+  def get(self, request, main_course_id=None):
     main_course = MainCourse.objects.all()
     serializer = MainCourseSerializer(main_course, many=True)
     return Response(serializer.data)
+  def post(self,request, main_course_id=None):
+    form = MainCourseForm(request.POST)
+    if form.is_valid():
+      form.save()
+      main_course = MainCourse.objects.all()
+      serializer = MainCourseSerializer(main_course, many=True)
+      context = {'data': serializer.data}
+      return Response(context)
+  def delete(self, request, main_course_id):
+      main_course = get_object_or_404(Appetizer, id=main_course_id)
+      if request.method == 'DELETE':
+        main_course.delete()
+        return Response({'Main Course deleted successfully'})
+      else:
+        return HttpResponseNotAllowed(['DELETE'])
+  def update(self, request, main_course_id):
+      if request.method == 'PATCH':
+        main_course = get_object_or_404(MainCourse, id=main_course_id)  
+        form = MainCourseForm(request.PATCH, instance=main_course)
+        if form.is_valid():
+          form.save()
+        return Response({'Main Course updated successfully'})
+      
+class DessertAPIView(APIView):
+  def get(self, request, dessert_id=None):
+    desserts = Dessert.objects.all()
+    serializer = MainCourseSerializer(desserts, many=True)
+    return Response(serializer.data)
+  def post(self,request, dessert_id=None):
+    form = DessertForm(request.POST)
+    if form.is_valid():
+      form.save()
+      desserts = Dessert.objects.all()
+      serializer = DessertSerializer(desserts, many=True)
+      context = {'data': serializer.data}
+      return Response(context)
+  def delete(self, request, dessert_id):
+      dessert = get_object_or_404(Dessert, id=dessert_id)
+      if request.method == 'DELETE':
+        dessert.delete()
+        return Response({'Dessert deleted successfully'})
+      else:
+        return HttpResponseNotAllowed(['DELETE'])
+  def update(self, request, dessert_id):
+      if request.method == 'PATCH':
+        dessert = get_object_or_404(Dessert, id=dessert_id)  
+        form = DessertForm(request.PATCH, instance=dessert)
+        if form.is_valid():
+          form.save()
+        return Response({'Dessert updated successfully'})
+    
+# class MainCourseAPIView(APIView):
+#   def get(self, request):
+#     main_course = MainCourse.objects.all()
+#     serializer = MainCourseSerializer(main_course, many=True)
+#     return Response(serializer.data)
 
     
-class DessertAPIView(APIView):
-  def get(self, request):
-    desserts = Dessert.objects.all()
-    serializer = DessertSerializer(desserts, many=True)
-    return Response(serializer.data)
+# class DessertAPIView(APIView):
+#   def get(self, request):
+#     desserts = Dessert.objects.all()
+#     serializer = DessertSerializer(desserts, many=True)
+#     return Response(serializer.data)

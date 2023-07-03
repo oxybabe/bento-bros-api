@@ -29,8 +29,8 @@ urlpatterns = [
     path('main/<int:main_item_id>', main_item, name="main_item"), 
     path('dessert/<int:dessert_item_id>', dessert_item, name="dessert_item"), 
     path('backoffice/', include('menu_app.urls') ), 
-    path('api/appetizers/<int:appetizer_id>', views.AppetizerAPIView.as_view(), name="appetizer_APIView"),
-    path('api/main_course/', views.MainCourseAPIView.as_view()), 
+    path('api/appetizers/', views.AppetizerAPIView.as_view(), name="appetizer_APIView"),
+    path('api/main_course/', views.MainCourseAPIView.as_view(), name="main_course_APIView"), 
     path('api/desserts/', views.DessertAPIView.as_view())
    
  
