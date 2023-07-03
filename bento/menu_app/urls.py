@@ -18,7 +18,7 @@ urlpatterns = [
     path('update_appetizer/<int:appetizer_id>', update_appetizer, name="update_appetizer" ),
     path('update_main_course/<int:main_id>', update_main_course, name="update_main_course" ),
     path('update_dessert/<int:dessert_id>', update_dessert, name="update_dessert" ),
-    path('create_appetizer/', create_appetizer, name="create_appetizer" ),
+    path('backoffice/create_appetizer/', create_appetizer, name="create_appetizer" ),
     path('create_main_course/', create_main_course, name="create_main_course" ),
     path('create_dessert/', create_dessert, name="create_dessert" ),
 

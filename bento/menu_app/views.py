@@ -8,6 +8,8 @@ from menu_app.models import Appetizer, MainCourse, Dessert
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from menu_app import serializers
+
 
 
 
@@ -346,12 +348,36 @@ def create_dessert(request):
   }
   return render(request, 'office.html', context )
 
+# https://stackoverflow.com/questions/60203277/assertionerror-expected-a-response-httpresponse-or-httpstreamingresponse
+
 
 class AppetizerAPIView(APIView):
-  def get(self, request):
-    appetizers = Appetizer.objects.all()
-    serializer = AppetizerSerializer(appetizers, many=True)
+  def get(self, request, appetizer_id=None):
+    appetizer_record = Appetizer.objects.all()
+    serializer = AppetizerSerializer(appetizer_record, many=True)
     return Response(serializer.data)
+  def post(self,request, appetizer_id=None):
+    form = AppetizerForm(request.POST)
+    if form.is_valid():
+      form.save()
+      appetizers = Appetizer.objects.all()
+      serializer = AppetizerSerializer(appetizers, many=True)
+      context = {'data': serializer.data}
+      return Response(context)
+  def delete(self, request, appetizer_id):
+      appetizer = get_object_or_404(Appetizer, id=appetizer_id)
+      if request.method == 'DELETE':
+        appetizer.delete()
+        return Response({'Appetizer deleted successfully'})
+      else:
+        return HttpResponseNotAllowed(['DELETE'])
+  def update(self, request, appetizer_id):
+      if request.method == 'PATCH':
+        appetizer = get_object_or_404(Appetizer, id=appetizer_id)  
+        form = AppetizerForm(request.PATCH, instance=appetizer)
+        if form.is_valid():
+          form.save()
+        return Response({'appetizer updated successfully'})
     
 class MainCourseAPIView(APIView):
   def get(self, request):
